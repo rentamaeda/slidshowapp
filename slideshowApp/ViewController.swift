@@ -1,10 +1,3 @@
-//
-//  ViewController.swift
-//  slideshowApp
-//
-//  Created by 前田蓮太 on 2020/07/08.
-//  Copyright © 2020 renta.Maeda. All rights reserved.
-//
 
 import UIKit
 
@@ -28,10 +21,8 @@ class ViewController: UIViewController {
         let imageView = images[0]
         UIImageView.image = imageView
         
-         //ボタンのテキストを変える
-        if stopflag == 1{
-            dammy.setTitle("俺がボタンだ", for: .normal) // ボタンのタイトル
-        }
+      
+    
     }
     override func didReceiveMemoryWarning() {
            super.didReceiveMemoryWarning()
@@ -57,15 +48,22 @@ class ViewController: UIViewController {
     }
     
     @IBAction func startstopImage(_ sender: Any) {
-        if stopflag == 0{
-            Timer.scheduledTimer(timeInterval: 1.5, target: self, selector: #selector(onTimer(_:)), userInfo: nil, repeats: true)
-            stopflag = 1        //フラグが１になれば再生できない
-            motionflag = 1
+        if  stopflag == 0 && self.timer == nil{
+            self.timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(onTimer(_:)), userInfo: nil, repeats: true)
+             (sender as AnyObject).setTitle("停止", for: .normal)
+            stopflag = 1//再生と停止を判断
+            motionflag = 1//フラグが１になれば再生できない
         }
-       
+        else if stopflag == 1 && self.timer != nil{
+            (sender as AnyObject).setTitle("再生", for: .normal)
+            stopflag = 0
+            self.timer.invalidate()
+             self.timer = nil
+            motionflag = 0
+        }
     }
    
-    
+    //タイマー
         @objc func onTimer(_ timer: Timer) {
             if imageIndex == 2 {
                 imageIndex = 0
@@ -85,17 +83,15 @@ class ViewController: UIViewController {
              performSegue(withIdentifier: "result", sender: nil)
 
          }
+    
+    //画像タップすると次ページ拡大画像
     // ①セグエ実行前処理
        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
            // ②Segueの識別子確認
-           if segue.identifier == "result" {
-               // ③遷移先ViewCntrollerの取得
-            _ = segue.destination as! NextController
-    
-               // ④値の設定
-            UIImageView.image = images[imageIndex]
-            
+           let NextController:NextController = segue.destination as! NextController
+           // 値の設定
+           NextController.flag = imageIndex
         }
-       }
+       
 }
 
