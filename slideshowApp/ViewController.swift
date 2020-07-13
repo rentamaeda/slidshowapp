@@ -10,6 +10,8 @@ import UIKit
 
 class ViewController: UIViewController {
     @IBOutlet weak var dammy: UIButton!
+   
+    
     
     @IBOutlet weak var UIImageView: UIImageView!
     @IBOutlet weak var startstopImage2: UIButton!
@@ -18,6 +20,8 @@ class ViewController: UIViewController {
      var imageIndex = 0
     var timer : Timer!
     var stopflag = 0
+    var motionflag = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -36,17 +40,17 @@ class ViewController: UIViewController {
     
     //ボタン処理
     @IBAction func nextImage(_ sender: Any) {
-        if imageIndex == 2 {
+        if imageIndex == 2 && motionflag == 0{
                  imageIndex = 0
-             } else {
+             } else if motionflag == 0 {
                  imageIndex += 1
              }
              UIImageView.image = images[imageIndex]
     }
     @IBAction func backImage(_ sender: Any) {
-        if imageIndex == 0 {
+        if imageIndex == 0 && motionflag == 0{
                    imageIndex = 2
-               } else {
+               } else if motionflag == 0{
                    imageIndex -= 1
                }
                UIImageView.image = images[imageIndex]
@@ -56,6 +60,7 @@ class ViewController: UIViewController {
         if stopflag == 0{
             Timer.scheduledTimer(timeInterval: 1.5, target: self, selector: #selector(onTimer(_:)), userInfo: nil, repeats: true)
             stopflag = 1        //フラグが１になれば再生できない
+            motionflag = 1
         }
        
     }
@@ -75,6 +80,22 @@ class ViewController: UIViewController {
     //拡大ページから戻る
       @IBAction func unwind(_ segue: UIStoryboardSegue) {
          }
-      
+    //画像をタップすると次ページへ
+      @IBAction func tapAction(_ sender: Any) {
+             performSegue(withIdentifier: "result", sender: nil)
+
+         }
+    // ①セグエ実行前処理
+       override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+           // ②Segueの識別子確認
+           if segue.identifier == "result" {
+               // ③遷移先ViewCntrollerの取得
+            _ = segue.destination as! NextController
+    
+               // ④値の設定
+            UIImageView.image = images[imageIndex]
+            
+        }
+       }
 }
 
