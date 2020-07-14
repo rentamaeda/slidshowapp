@@ -63,6 +63,8 @@
                     </view>
                     <connections>
                         <outlet property="UIImageView" destination="L1x-PV-Vyx" id="mSb-nG-tJA"/>
+                        <outlet property="backButton" destination="CHo-36-eFe" id="Sz4-yw-RBa"/>
+                        <outlet property="moveButton" destination="9nP-h2-baH" id="mHc-Qf-bO7"/>
                         <outlet property="startstopImage2" destination="66I-A4-8FD" id="aUM-zx-aa3"/>
                         <segue destination="tOP-lh-VHg" kind="show" identifier="result" id="g5n-vQ-VR3"/>
                     </connections>

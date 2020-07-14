@@ -2,12 +2,10 @@
 import UIKit
 
 class ViewController: UIViewController {
-    @IBOutlet weak var dammy: UIButton!
-   
-    
-    
     @IBOutlet weak var UIImageView: UIImageView!
     @IBOutlet weak var startstopImage2: UIButton!
+    @IBOutlet weak var moveButton: UIButton!
+    @IBOutlet weak var backButton: UIButton!
     let images = [UIImage(named: "17388b7f608671656716ab509ee0fa05.png"), UIImage(named: "icon_bulbasaur.png"), UIImage(named: "スクリーンショット-2020-01-10-11.40.50.png")]
 
      var imageIndex = 0
@@ -48,13 +46,16 @@ class ViewController: UIViewController {
     }
     
     @IBAction func startstopImage(_ sender: Any) {
-        if  stopflag == 0 && self.timer == nil{
+        if  stopflag == 0 && self.timer == nil{         //再生
             self.timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(onTimer(_:)), userInfo: nil, repeats: true)
              (sender as AnyObject).setTitle("停止", for: .normal)
             stopflag = 1//再生と停止を判断
             motionflag = 1//フラグが１になれば再生できない
+            moveButton.isEnabled = false
+            backButton.isEnabled = false
+
         }
-        else if stopflag == 1 && self.timer != nil{
+        else if stopflag == 1 && self.timer != nil{     //ストップ
             (sender as AnyObject).setTitle("再生", for: .normal)
             stopflag = 0
             self.timer.invalidate()
@@ -91,6 +92,12 @@ class ViewController: UIViewController {
            let NextController:NextController = segue.destination as! NextController
            // 値の設定
            NextController.flag = imageIndex
+            //次ページに行くとタイマーが停止
+        startstopImage2.setTitle("再生", for: .normal)
+                stopflag = 0
+                   self.timer.invalidate()
+                    self.timer = nil
+                   motionflag = 0
         }
        
 }
