@@ -102,7 +102,12 @@ class ViewController: UIViewController {
                    self.timer.invalidate()
                     self.timer = nil
                    motionflag = 0
+            moveButton.isEnabled = true
+            backButton.isEnabled = true
+
         }
+     
+        
         }
        
 }
