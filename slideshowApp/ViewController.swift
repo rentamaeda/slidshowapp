@@ -61,6 +61,9 @@ class ViewController: UIViewController {
             self.timer.invalidate()
              self.timer = nil
             motionflag = 0
+            moveButton.isEnabled = true
+            backButton.isEnabled = true
+
         }
     }
    
@@ -93,11 +96,13 @@ class ViewController: UIViewController {
            // 値の設定
            NextController.flag = imageIndex
             //次ページに行くとタイマーが停止
+        if self.timer != nil{
         startstopImage2.setTitle("再生", for: .normal)
                 stopflag = 0
                    self.timer.invalidate()
                     self.timer = nil
                    motionflag = 0
+        }
         }
        
 }
